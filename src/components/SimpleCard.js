@@ -1,5 +1,5 @@
-import { React, useState } from "react";
-import { Card, Button, DropdownButton, Dropdown } from "react-bootstrap";
+import { React } from "react";
+import { Card, Button } from "react-bootstrap";
 /* const theCall = {props.theCall}; */
 function SimpleCard({ image, message, theCall, theQuerry, title }) {
   return (
@@ -21,7 +21,7 @@ function SimpleCard({ image, message, theCall, theQuerry, title }) {
           onClick={() => theCall(theQuerry)}
           style={{ position: "absolute", bottom: "10px" }}
         >
-          Querry!
+          Query!
         </Button>
       </Card.Body>
     </Card>

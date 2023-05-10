@@ -1,20 +1,19 @@
 import { React, useState } from "react";
 import { Card, Button, DropdownButton, Dropdown } from "react-bootstrap";
-/* const theCall = {props.theCall}; */
+
 /* debugger; */
 function CardList({ image, message, theQuerry, theCall, title, options }) {
-  const [choice, setChoice] = useState(Array(2));
-
+  const [choice, setChoice] = useState(Array(options.length).fill(""));
   const handleOptionSelect = (option, index) => {
     const updatedValues = [...choice];
     updatedValues[index] = option;
     setChoice(updatedValues);
   };
-  const onSubmit = () => {
+  const handleSubmit = () => {
     const modifiedQuery = theQuerry.replace(new RegExp("\\?", "g"), () => {
       return choice.shift();
     });
-    const resetChoice = Array(choice.length).fill(undefined);
+    const resetChoice = Array(options.length).fill("");
     setChoice(resetChoice);
     theCall(modifiedQuery);
   };
@@ -35,6 +34,7 @@ function CardList({ image, message, theQuerry, theCall, title, options }) {
         <div style={{ display: "flex", justifyContent: "center" }}>
           {options.map((option, index1) => (
             <DropdownButton
+              onSubmit={handleSubmit}
               style={{ margin: "10px" }}
               key={index1}
               id="dropdown-basic-button"
@@ -53,12 +53,13 @@ function CardList({ image, message, theQuerry, theCall, title, options }) {
         </div>
 
         <Button
-          disabled={choice[0] === undefined || choice[1] === undefined}
+          disabled={!choice.every((value) => value.trim() !== "")}
           variant="primary"
-          onClick={() => onSubmit()}
+          type="submit"
+          onClick={() => handleSubmit()}
           style={{ position: "absolute", bottom: "10px" }}
         >
-          Querry!
+          Query!
         </Button>
       </Card.Body>
     </Card>

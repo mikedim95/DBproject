@@ -1,7 +1,6 @@
-import { React, useState, useEffect } from "react";
+import { React, useState } from "react";
 import Navbar from "./components/Navbar";
-import SimpleCard from "./components/SimpleCard";
-import DropdownCard from "./components/DropdownCard";
+
 import image1 from "./resources/images/image1.png";
 import image2 from "./resources/images/image2.jpg";
 import image3 from "./resources/images/image3.jpg";
@@ -14,10 +13,15 @@ import image9 from "./resources/images/image9.jpg";
 import image10 from "./resources/images/image10.jpg";
 import image11 from "./resources/images/image11.jpg";
 import image12 from "./resources/images/image12.jpg";
+import SimpleCard from "./components/SimpleCard";
+import DropdownCard from "./components/DropdownCard";
 import ResultComponent from "./components/Results";
-import axios from "axios";
+import FormCard from "./components/FormCard";
+/* import axios from "axios"; */
 function App() {
+  const [resultRender, setResultRender] = useState(false); // Bool for Results render (not allways visible)
   function makeTheCall(sqlQuerry) {
+    //This function is finalyl called by the children with the sqlQuerry ready as argument
     console.log(sqlQuerry);
     /*  executeSQLQuery(sqlQuerry); */
   }
@@ -25,9 +29,12 @@ function App() {
     const response = await axios.post("http://localhost:3000/api/sql", {
       query: query,
     });
-    setSessionComponentRender(false);
+    setResultRender(false);
     return response.data;
   }; */
+
+  // ------- ↓ These are the the sqlQuerries. The '?' will be replaced with the user choices by the childer with Regex
+
   const querry1 = "SELECT * FROM table WHERE column = ? and ?";
   const querry2 = "SELECT * FROM table WHERE column = ? and ?";
   const querry3 = "this is the 3rd querry";
@@ -41,7 +48,9 @@ function App() {
   const querry11 = "this is the 4th querry";
   const querry12 = "this is the 4th querry";
 
-  const nestedData = [
+  /*---- ↓ these will be the extra instructions needed by the children to render and collect the coices  ↓ ------------------ */
+
+  const dropdownStruct411 = [
     {
       default: "Select Year",
       answers: ["2022", "2023"],
@@ -51,8 +60,30 @@ function App() {
       answers: ["January", "February", "March", "April", "May"],
     },
   ];
-
-  const [sessionComponentRender, setSessionComponentRender] = useState(false); // Bool for session render
+  const dropdownStruct412 = [
+    {
+      default: "Select Category",
+      answers: ["Category 1", "Category 2", "Category 3"],
+    },
+  ];
+  const dropdownStruct416 = [
+    {
+      default: "Select Field 1",
+      answers: ["Field 1", "Field 2"],
+    },
+    {
+      default: "Select Field 2",
+      answers: ["Field 1", "Field 2"],
+    },
+  ];
+  const optionsArray421 = ["Title", "Category", "Author", "Copies"];
+  const optionsArray422 = ["First Name", "Last Name", "Delay Days"];
+  const optionsArray423 = ["User", "Category"];
+  const optionsArray431 = ["Title", "Category", "Author"];
+  const optionsArray432 = ["User"];
+  /*----------------------------- ↓ Begin Rendering -------------------------------------------
+  (General Idea: Render the children unconditionally and pass props. DropdownCards and FormCards require extra props)
+  In the end, conditionally render the Results from the queries*/
   return (
     <div>
       <Navbar />
@@ -69,67 +100,70 @@ function App() {
       <div className="separator container">
         <DropdownCard
           image={image1} //The image to be passed to the Card child
-          title={"3.1.1"}
+          title={"4.1.1"}
           message={
-            "List with the total number of loans per school (Search criteria: year, calendar month, e.g.January)"
+            "List with the total number of loans per school (Search criteria: year, calendar month, e.g.January)."
           } //The message to be shown
           theCall={makeTheCall} //The function to be called up submition
           theQuerry={querry1} //The querry to be executed (passed back as argument to makeTheCall)
           //Special features (these will have dynamic impact)
 
-          options={nestedData}
+          options={dropdownStruct411}
         />
 
-        <SimpleCard
+        <DropdownCard
           image={image2}
-          title={"3.1.2"}
+          title={"4.1.2"}
           message={
-            "For a given book category, which authors belong to it and which teachers have borrowed books from that category in the last year"
+            "For a given book category, which authors belong to it and which teachers have borrowed books from that category in the last year."
           }
           theQuerry={querry2}
+          theCall={makeTheCall}
+          options={dropdownStruct412}
         />
         <SimpleCard
           image={image3}
-          title={"3.1.3"}
+          title={"4.1.3"}
           message={
-            "Find young teachers (age < 40 years) who have borrowed the most books and the number of books"
+            "Find young teachers (age < 40 years) who have borrowed the most books and the number of books."
           }
           theCall={makeTheCall}
           theQuerry={querry3}
         />
         <SimpleCard
           image={image4}
-          title={"3.1.4"}
-          message={".Find authors whose books have not been borrowed"}
+          title={"4.1.4"}
+          message={"Find authors whose books have not been borrowed."}
           theCall={makeTheCall}
           theQuerry={querry4}
         />
         <SimpleCard
           image={image5}
-          title={"3.1.5"}
+          title={"4.1.5"}
           message={
-            "Which operators have loaned the same number of books in a year with more than 20 loans"
+            "Which operators have loaned the same number of books in a year with more than 20 loans."
           }
           theCall={makeTheCall}
-          theQuerry={querry1}
+          theQuerry={querry5}
         />
-        <SimpleCard
+        <DropdownCard
           image={image6}
-          title={"3.1.6"}
+          title={"4.1.6"}
           message={
-            "Many books cover more than one category. Among field pairs (e.g., history and poetry) that are common in books, find the top-3 pairs that appeared in borrowings"
+            "Many books cover more than one category. Among field pairs (e.g., history and poetry) that are common in books, find the top-3 pairs that appeared in borrowings."
           }
           theCall={makeTheCall}
-          theQuerry={querry1}
+          theQuerry={querry6}
+          options={dropdownStruct416}
         />
         <SimpleCard
           image={image7}
-          title={"3.1.7"}
+          title={"4.1.7"}
           message={
-            "Find all authors who have written at least 5 books less than the author with the most books"
+            "Find all authors who have written at least 5 books less than the author with the most books."
           }
           theCall={makeTheCall}
-          theQuerry={querry1}
+          theQuerry={querry7}
         />
       </div>
       <div
@@ -143,27 +177,36 @@ function App() {
       </div>
 
       <div className="separator container">
-        <SimpleCard
+        <FormCard
           image={image8}
-          title={"3.1.1"}
-          message={"message1"}
+          title={"4.2.1"}
+          message={
+            "All books by Title, Author (Search criteria: title/ category/ author/ copies)."
+          }
           theCall={makeTheCall}
-          theQuerry={querry1}
+          theQuerry={querry8}
+          options={optionsArray421}
         />
 
-        <SimpleCard
+        <FormCard
           image={image9}
-          title={"3.1.1"}
-          message={"message1"}
+          title={"4.2.2"}
+          message={
+            "Find all borrowers who own at least one book and have delayed its return. (Search criteria: First Name, Last Name, Delay Days)."
+          }
           theCall={makeTheCall}
-          theQuerry={querry1}
+          theQuerry={querry9}
+          options={optionsArray422}
         />
-        <SimpleCard
+        <FormCard
           image={image10}
-          title={"3.1.1"}
-          message={"message3"}
+          title={"4.2.3"}
+          message={
+            "Average Ratings per borrower and category (Search criteria: user/category)."
+          }
           theCall={makeTheCall}
-          theQuerry={querry3}
+          theQuerry={querry10}
+          options={optionsArray423}
         />
       </div>
       <div
@@ -177,20 +220,24 @@ function App() {
       </div>
 
       <div className="separator container">
-        <SimpleCard
+        <FormCard
           image={image11}
-          title={"3.1.1"}
-          message={"message1"}
+          title={"4.3.1"}
+          message={
+            "List with all books (Search criteria: title/category/author), ability to select a book and create a reservation request)."
+          }
           theCall={makeTheCall}
-          theQuerry={querry1}
+          theQuerry={querry11}
+          options={optionsArray431}
         />
 
-        <SimpleCard
+        <FormCard
           image={image12}
-          title={"3.1.1"}
-          message={"message1"}
+          title={"4.2.1"}
+          message={"List of all books borrowed by this user."}
           theCall={makeTheCall}
-          theQuerry={querry1}
+          theQuerry={querry12}
+          options={optionsArray432}
         />
       </div>
       <div
@@ -202,7 +249,7 @@ function App() {
       >
         <span> ↓ Results Will Be Show Here ↓ </span>
       </div>
-      {sessionComponentRender && (
+      {resultRender && (
         <ResultComponent
           /* data={sessionAnswers} */ function={CloseResultsElement}
         />
@@ -211,7 +258,7 @@ function App() {
   );
 
   function CloseResultsElement() {
-    setSessionComponentRender(false);
+    setResultRender(false);
   }
 }
 export default App;
