@@ -5,7 +5,9 @@
   Then instal Node.js https://nodejs.org/en/download
 
 ## Getting ready...
-  The Database.sql file in the top level fodler is the tested database. Insert it in MySqlWorkbench you previously installed and run it. Then press refresh at the left of the screen to see the database.
+open a folder in your editor and run 
+###git clone https://github.com/mikedim95/DBproject.git
+  The Database.sql file in the top level folder is the tested database. Insert it in MySqlWorkbench you previously installed and run it. Then press refresh at the left of the screen to see the database.
   After the sql script excecution a query automatically shows the Credentials table. These are username and passwords for you to login and test the app. The 1 and 0 represent the role of every entry. 
   This is the ER_Model of the database 
   ![ER_model](ER_model.PNG)
