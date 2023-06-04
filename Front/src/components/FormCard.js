@@ -25,6 +25,7 @@ function SimpleCard({ image, message, theCall, theQuerry, title, options }) {
       return choice.shift();
     });
     const resetChoice = Array(choice.length).fill("");
+
     setChoice(resetChoice);
     theCall(modifiedQuery);
   };

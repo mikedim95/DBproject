@@ -1,22 +1,22 @@
 import { React, useState } from "react";
-import Navbar from "./components/Navbar";
+import Navbar from "../components/Navbar";
 
-import image1 from "./resources/images/image1.png";
-import image2 from "./resources/images/image2.jpg";
-import image3 from "./resources/images/image3.jpg";
-import image4 from "./resources/images/image4.jpg";
-import image5 from "./resources/images/image5.jpg";
-import image6 from "./resources/images/image6.jpg";
-import image7 from "./resources/images/image7.jpg";
-import image8 from "./resources/images/image8.jpg";
-import image9 from "./resources/images/image9.jpg";
-import image10 from "./resources/images/image10.jpg";
-import image11 from "./resources/images/image11.jpg";
-import image12 from "./resources/images/image12.jpg";
-import SimpleCard from "./components/SimpleCard";
-import DropdownCard from "./components/DropdownCard";
-import ResultComponent from "./components/Results";
-import FormCard from "./components/FormCard";
+import image1 from "../resources/images/image1.png";
+import image2 from "../resources/images/image2.jpg";
+import image3 from "../resources/images/image3.jpg";
+import image4 from "../resources/images/image4.jpg";
+import image5 from "../resources/images/image5.jpg";
+import image6 from "../resources/images/image6.jpg";
+import image7 from "../resources/images/image7.jpg";
+import image8 from "../resources/images/image8.jpg";
+import image9 from "../resources/images/image9.jpg";
+import image10 from "../resources/images/image10.jpg";
+import image11 from "../resources/images/image11.jpg";
+import image12 from "../resources/images/image12.jpg";
+import SimpleCard from "../components/SimpleCard";
+import DropdownCard from "../components/DropdownCard";
+import ResultComponent from "../components/Results";
+import FormCard from "../components/FormCard";
 /* import axios from "axios"; */
 function App() {
   const [resultRender, setResultRender] = useState(false); // Bool for Results render (not allways visible)
